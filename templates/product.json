@@ -82,6 +82,17 @@
         "padding_bottom": 0
       }
     },
+    "variant-specs": {
+      "type": "variant-specs",
+      "settings": {
+        "eyebrow": "What's inside",
+        "heading": "The Complete Snowboard",
+        "heading_accent": "Specs",
+        "subheading": "Complete snowboard variants. Pre-tuned, waxed, and ready to ride.",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -102,6 +113,7 @@
   },
   "order": [
     "main",
+    "variant-specs",
     "related-products"
   ]
 }
