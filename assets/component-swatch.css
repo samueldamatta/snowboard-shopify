@@ -1,0 +1,130 @@
+/*
+  Icon swatches on the variant picker.
+  Ported from Dawn 15 (component-swatch.css + component-swatch-input.css) and
+  adapted to this theme's radio-pill picker: instead of a dedicated
+  `.swatch-input__label`, the swatch span is rendered inside the existing
+  `.product-form__input input[type='radio'] + label`, flagged with the
+  `.product-form__pill--swatch` modifier.
+*/
+
+/* ----- The swatch chip itself (icon image or solid color) ----- */
+.swatch {
+  --swatch--size: var(--swatch-input--size, 4.4rem);
+  --swatch--border-radius: var(--swatch-input--border-radius, 50%);
+
+  display: block;
+  width: var(--swatch--size);
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--swatch--background);
+  background-position: var(--swatch-focal-point, initial);
+  background-size: cover;
+  background-origin: border-box;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.15);
+  border-radius: var(--swatch--border-radius);
+}
+
+.swatch--square {
+  --swatch--border-radius: var(--swatch-input--border-radius, 0.2rem);
+}
+
+.swatch--unavailable {
+  border-style: dashed;
+  border-color: rgba(var(--color-foreground), 0.5);
+}
+
+/* ----- Turn the radio pill into a swatch chip ----- */
+.product-form__input input[type='radio'] + label.product-form__pill--swatch {
+  --swatch-input--border-radius: 50%;
+
+  padding: 0;
+  margin: 0.7rem 0.5rem 0.2rem 0;
+  border: none;
+  background-color: transparent;
+  border-radius: var(--swatch-input--border-radius);
+  outline-offset: 0.2rem;
+  outline: 0.2rem solid transparent;
+  transition: outline-color var(--duration-short) ease;
+}
+
+.product-form__input input[type='radio'] + label.product-form__pill--swatch--square {
+  --swatch-input--border-radius: 0.2rem;
+}
+
+/* Drop the pill's box-shadow pseudo-element. */
+.product-form__input input[type='radio'] + label.product-form__pill--swatch::before {
+  content: none;
+}
+
+/* Hover */
+.product-form__input input[type='radio'] + label.product-form__pill--swatch:hover {
+  border-color: transparent;
+  outline-color: rgba(var(--color-foreground), 0.4);
+}
+
+/* Selected: ring instead of the pill's filled background. */
+.product-form__input input[type='radio']:checked + label.product-form__pill--swatch {
+  background-color: transparent;
+  color: rgb(var(--color-foreground));
+  outline: 0.1rem solid rgb(var(--color-foreground));
+}
+
+/* Focus visible */
+.product-form__input input[type='radio']:focus-visible + label.product-form__pill--swatch {
+  box-shadow: none;
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+}
+
+.product-form__input input[type='radio'].focused + label.product-form__pill--swatch {
+  box-shadow: none;
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+}
+
+/* ----- Disabled / sold-out: fade the icon and cross it with a diagonal line ----- */
+.product-form__input input[type='radio']:disabled + label.product-form__pill--swatch,
+.product-form__input input[type='radio'].disabled + label.product-form__pill--swatch {
+  border-color: transparent;
+  text-decoration: none;
+}
+
+.product-form__input input[type='radio']:disabled + label.product-form__pill--swatch > .swatch,
+.product-form__input input[type='radio'].disabled + label.product-form__pill--swatch > .swatch {
+  position: relative;
+  overflow: hidden;
+  opacity: 0.4;
+}
+
+.product-form__input input[type='radio']:disabled + label.product-form__pill--swatch > .swatch::after,
+.product-form__input input[type='radio'].disabled + label.product-form__pill--swatch > .swatch::after {
+  /* Diagonal of a square = side length * sqrt(2). */
+  --diagonal--size: calc(var(--swatch--size, 4.4rem) * 1.414);
+  --crossed-line--size: 0.1rem;
+
+  content: '';
+  position: absolute;
+  bottom: calc(var(--crossed-line--size) * -0.5);
+  left: 0;
+  width: var(--diagonal--size);
+  height: var(--crossed-line--size);
+  background-color: rgb(var(--color-foreground));
+  transform: rotate(-45deg);
+  transform-origin: left;
+}
+
+/*
+  Keep the option value name in the accessibility tree for swatch chips.
+  A dedicated class avoids the theme's pill rule that sets `display: none` on
+  `.visually-hidden` inside available pills, which would strip the radio's
+  accessible name.
+*/
+.swatch-value-text {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal !important;
+}

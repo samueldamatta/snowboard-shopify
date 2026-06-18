@@ -21,6 +21,12 @@
   assign variants_option3_arr = product.variants | map: 'option3'
 
   assign product_form_id = 'product-form-' | append: section.id
+
+  assign swatch_count = option.values | map: 'swatch' | compact | size
+  assign use_swatches = false
+  if swatch_count > 0 and block.settings.swatch_shape != 'none'
+    assign use_swatches = true
+  endif
 -%}
 
 {%- for value in option.values -%}
@@ -59,16 +65,40 @@
         class="disabled"
       {% endif %}
     >
-    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
-      {{ value -}}
-      <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
-    </label>
+    {%- if use_swatches and value.swatch -%}
+      <label
+        for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+        title="{{ value | escape }}"
+        class="product-form__pill--swatch{% if block.settings.swatch_shape == 'square' %} product-form__pill--swatch--square{% endif %}"
+      >
+        {% render 'swatch', swatch: value.swatch, shape: block.settings.swatch_shape %}
+        <span class="swatch-value-text">{{ value }}</span>
+        <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+      </label>
+    {%- else -%}
+      <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+        {{ value -}}
+        <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+      </label>
+    {%- endif -%}
   {%- elsif block.settings.picker_type == 'dropdown' -%}
     <option
       value="{{ value | escape }}"
       {% if option.selected_value == value %}
         selected="selected"
       {% endif %}
+      {%- if use_swatches and value.swatch -%}
+        {%- liquid
+          assign swatch_value = null
+          if value.swatch.image
+            assign image_url = value.swatch.image | image_url: width: 50
+            assign swatch_value = 'url(' | append: image_url | append: ')'
+          elsif value.swatch.color
+            assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+          endif
+        -%}
+        {%- if swatch_value %} data-option-swatch-value="{{ swatch_value }}"{% endif -%}
+      {%- endif -%}
     >
       {% if option_disabled -%}
         {{- 'products.product.value_unavailable' | t: option_value: value -}}
