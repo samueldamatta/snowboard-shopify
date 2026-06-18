@@ -1,0 +1,32 @@
+{
+  "_note": "Representative workflow definition committed for version control. Replace this file with the real .flow exported from Admin -> Flow -> (workflow) -> More actions -> Export once the workflow is built and enabled. See flow-california-high-value.md.",
+  "name": "Tag California customers as high value",
+  "trigger": {
+    "handle": "shopify::order::created",
+    "outputs": ["order"]
+  },
+  "steps": [
+    {
+      "id": "condition-province",
+      "type": "condition",
+      "logic": "AND",
+      "criteria": [
+        {
+          "field": "order.shippingAddress.provinceCode",
+          "operator": "==",
+          "value": "CA"
+        }
+      ]
+    },
+    {
+      "id": "action-tag-customer",
+      "type": "action",
+      "handle": "shopify::customer::addTags",
+      "branch": "condition-province.true",
+      "inputs": {
+        "customerId": "{{order.customer.id}}",
+        "tags": ["High Value Customer"]
+      }
+    }
+  ]
+}

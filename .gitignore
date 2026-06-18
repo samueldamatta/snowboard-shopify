@@ -1,0 +1,21 @@
+# Shopify CLI (theme dev session, local store config, pulled metafields)
+.shopify/
+
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (only if tooling is added later)
+node_modules/
+npm-debug.log*
+yarn-error.log*
