@@ -19,6 +19,23 @@ reference theme and developed with the **Shopify CLI**.
 
 ---
 
+## Development approach — Spec-Driven Development (SDD)
+
+This project was built **spec-first**: every task was written up as a spec in
+[`.claude/specs/`](.claude/specs/) — goal, decision, admin steps, code changes, files touched, and
+acceptance criteria — *before* any implementation. Each spec maps 1:1 to a feature commit, so the
+intent is documented and reviewable alongside the diff.
+
+| Spec | Task |
+|---|---|
+| [`task-1-icon-swatches.md`](.claude/specs/task-1-icon-swatches.md) | Icon swatches on the variant picker |
+| [`task-2-spec-table.md`](.claude/specs/task-2-spec-table.md) | Per-variant specification table |
+| [`task-3-checkout-value.md`](.claude/specs/task-3-checkout-value.md) | Checkout value recommendations (Plus) |
+| [`task-4-california-tagging.md`](.claude/specs/task-4-california-tagging.md) | Auto-tag California buyers as high-value |
+| [`task-5-github-shopify-cli.md`](.claude/specs/task-5-github-shopify-cli.md) | GitHub + Shopify CLI workflow |
+
+---
+
 ## Admin configuration required
 
 The theme code is data-driven — these must be set in the Shopify admin for the features to render/run:
