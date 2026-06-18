@@ -18,6 +18,7 @@
         },
         "vendor": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "{{ product.vendor }}",
             "text_style": "body"
@@ -26,12 +27,12 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "button"
+            "picker_type": "button",
+            "swatch_shape": "none"
           }
         },
         "quantity_selector": {
           "type": "quantity_selector",
-          "disabled": true,
           "settings": {}
         },
         "price": {
@@ -59,10 +60,9 @@
       },
       "block_order": [
         "title",
-        "vendor",
+        "price",
         "variant_picker",
         "quantity_selector",
-        "price",
         "buy_buttons",
         "description",
         "share"
